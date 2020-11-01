@@ -1,0 +1,23 @@
+{
+  "name": "mc-verify",
+  "version": "1.0.0",
+  "description": "Adds verification to minecraft to limit who can join.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "minecraft",
+    "verification"
+  ],
+  "author": "Seth Wheeler",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "mongoose": "^5.10.9",
+    "nanoid": "^3.1.15"
+  }
+}
