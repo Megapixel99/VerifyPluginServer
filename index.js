@@ -4,6 +4,7 @@ require('./env.js');
 const {nanoid} = require('nanoid');
 const models = require('./dbModels.js');
 const dbcon = require('./dbConnect.js');
+const bearerAuth = require('./bearerAuth.js');
 const app = express();
 
 dbcon.connect();
@@ -27,7 +28,7 @@ app.get('/boop', (req, res) => {
   res.status(200).send('beep');
 });
 
-app.get('/verify/status/id/:id', (req, res) => {
+app.get('/verify/status/id/:id', bearerAuth, (req, res) => {
   models.player.findOne({
     id: req.params.id.toLowerCase(),
   }).then((player) => {
@@ -65,7 +66,7 @@ app.get('/verify/status/id/:id', (req, res) => {
   });
 });
 
-app.get('/verify/status/ign/:ign', (req, res) => {
+app.get('/verify/status/ign/:ign', bearerAuth, (req, res) => {
   models.player.findOne({
     ign: req.params.ign,
   }).then((player) => {
@@ -103,7 +104,7 @@ app.get('/verify/status/ign/:ign', (req, res) => {
   });
 });
 
-app.get('/verify/status/uuid/:uuid', (req, res) => {
+app.get('/verify/status/uuid/:uuid', bearerAuth, (req, res) => {
   const conditions = { uuid: req.params.uuid };
   models.player.findOne(conditions).then((player) => {
     if (player) {
@@ -151,7 +152,7 @@ app.get('/verify/status/uuid/:uuid', (req, res) => {
   });
 });
 
-app.post('/add/id/:id', (req, res) => {
+app.post('/add/id/:id', bearerAuth, (req, res) => {
   models.player.findOne({
      id: req.params.id.toLowerCase()
   }).then((player) => {
@@ -199,7 +200,7 @@ app.post('/add/id/:id', (req, res) => {
   });
 });
 
-app.put("/change/role/:role/player/:player", (req, res) => {
+app.put("/change/role/:role/player/:player", bearerAuth, (req, res) => {
   let role = (req.params.role === "none" ? null : req.params.role);
   models.player.findOneAndUpdate({
   $or:[
@@ -237,7 +238,7 @@ app.put("/change/role/:role/player/:player", (req, res) => {
   });
 });
 
-app.put('/verify/reset/code/ign/:ign', (req, res) => {
+app.put('/verify/reset/code/ign/:ign', bearerAuth, (req, res) => {
   let code = nanoid(8);
   models.player.findOneAndUpdate({
     ign: req.params.ign
@@ -270,7 +271,7 @@ app.put('/verify/reset/code/ign/:ign', (req, res) => {
   });
 });
 
-app.put('/verify/id/:id/code/:code/ign/:ign/uuid/:uuid', (req, res) => {
+app.put('/verify/id/:id/code/:code/ign/:ign/uuid/:uuid', bearerAuth, (req, res) => {
   let conditions = { id: req.params.id };
   models.player.findOne(conditions).then((player) => {
     if (player) {
