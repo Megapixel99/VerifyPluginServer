@@ -10,7 +10,14 @@ and destroy it (or take it over) this is the server which can be used for the Ve
 To configure the server successfully:
 * run `npm i` in the root directory of the project
 * duplicate `.sample.env` and rename it to `.env`
-* set `MONGO_CONNECT` to your MongoDB connection URL
+* set `AUTH_ENABLED` to true if you want to use Bearer Token Authentication
+* set `AUTH_STRING` to a random string to generate your Bearer Token(s)
+
+## How generate Bearer Tokens
+
+In the root directory of this project run `node ./tokenGenerator.js` to
+generate a new Bearer Token. This token should be used in all of your requests,
+if you enable authentication.
 
 ## How run the server
 
