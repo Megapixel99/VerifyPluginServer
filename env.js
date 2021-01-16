@@ -1,3 +1,3 @@
 module.exports = require('dotenv').config({
-  path: '.env',
+  path: './.env',
 });
