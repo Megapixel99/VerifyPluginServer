@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-require('./env.js');
+require('../env.js');
 const token = jwt.sign({
   loc: "",
 },
