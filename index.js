@@ -1,9 +1,13 @@
 const app = require('express')();
+const bodyParser = require('body-parser');
 
 app.set('json spaces', 2);
 app.use(require('helmet')());
 
-app.use(require('body-parser').json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
 app.use(require('./router.js'));
 
 app.use((req, res) => {

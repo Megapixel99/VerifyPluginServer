@@ -56,6 +56,12 @@ router.post('/add/id/:id', bearerAuth, (req, res) => {
   });
 });
 
+router.post('/formstack', bearerAuth, (req, res) => {
+  console.log('/formstack hit\n');
+  console.log(req.body);
+  res.sendStatus(202);
+});
+
 router.put("/change/role/:role/player/:player", bearerAuth, (req, res) => {
   methods.updatePlayerRole(req.params.player, req.params.role).then((data) => {
     res.status(data.status).send(data);
