@@ -1,6 +1,6 @@
 {
   "name": "mc-verify",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Adds verification to minecraft to limit who can join.",
   "main": "index.js",
   "scripts": {
