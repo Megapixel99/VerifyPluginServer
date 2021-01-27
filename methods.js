@@ -56,6 +56,15 @@ module.exports = {
       });
     });
   },
+  getPlayerCode(id) {
+    return new Promise(function(resolve, reject) {
+      models.player.findOne({id}, {code: 1}).then(function (data) {
+        resolve(data.code);
+      }).catch(function (err) {
+        reject(err);
+      });
+    });
+  },
   createPlayer(id) {
     return new Promise(function(resolve, reject) {
       models.player.findOne({
@@ -94,16 +103,17 @@ module.exports = {
               }
             });
           });
+        } else {
+          resolve({
+            id: id,
+            ign: null,
+            verified: false,
+            role: null,
+            message: `Player with an id of ${id} already exsists`,
+            error: null,
+            status: 422,
+          });
         }
-        resolve({
-          id: id,
-          ign: null,
-          verified: false,
-          role: null,
-          message: `Player with an id of ${id} already exsists`,
-          error: null,
-          status: 422,
-        });
       }).catch((err) => {
         reject({
           err: err,
@@ -196,10 +206,9 @@ module.exports = {
     });
   },
   verify(id, code, ign, uuid) {
+    let conditions = {id};
     return new Promise(function(resolve, reject) {
-      models.player.findOne({
-        id,
-      }).then((player) => {
+      models.player.findOne(conditions).then((player) => {
         if (player) {
           if (player.verified === true) {
             resolve({

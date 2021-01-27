@@ -2,6 +2,7 @@
 const router = require('express').Router();
 require('./env.js');
 const methods = require('./methods.js');
+const axios = require('axios');
 const bearerAuth = require('./bearerAuth.js');
 
 router.get('/ping', (req, res) => {
@@ -56,10 +57,37 @@ router.post('/add/id/:id', bearerAuth, (req, res) => {
   });
 });
 
-router.post('/formstack', bearerAuth, (req, res) => {
-  console.log('/formstack hit\n');
-  console.log(req.body);
-  res.sendStatus(202);
+router.post('/formstack', async (req, res) => {
+  if (Number(req.body.FormID) === process.env.FORM_ID) {
+    res.sendStatus(202);
+    let ign = req.body['What is your minecraft username?'].split("\nfield_type")[0].replace(/\s+/g, '').split('=')[1];
+    let id = req.body.Email.split("\nfield_type")[0].replace(/\s+/g, '').split('=')[1].split("@")[0];
+    let code = null;
+    try {
+      let newPlayer = (await methods.createPlayer(id));
+      code = (await methods.getPlayerCode(id));
+      if (newPlayer.status === 202) {
+        let userData = (await axios.post('https://api.mojang.com/profiles/minecraft', [ign])).data[0];
+        if (userData) {
+          let uuid = userData.id;
+          if (!uuid.includes('-')) {
+            uuid = uuid.substr(0,8)+"-"+uuid.substr(8,4)+"-"+uuid.substr(12,4)+"-"+uuid.substr(16,4)+"-"+uuid.substr(20);
+          }
+          await methods.verify(id, code, ign, uuid);
+        }
+      }
+    } catch (e) {
+      console.log('An error occured while creating the student');
+      console.log({
+        id,
+        code,
+        ign,
+        error: e
+      });
+    }
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 router.put("/change/role/:role/player/:player", bearerAuth, (req, res) => {
