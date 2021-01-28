@@ -6,6 +6,9 @@ const dbcon = require('./dbConnect.js');
 dbcon.connect();
 
 module.exports = {
+  getPlayers(condition) {
+    return models.player.find(condition).lean();
+  },
   verifyPlayerStatus(condition, ign) {
     return new Promise(function(resolve, reject) {
       models.player.findOne(condition).then((player) => {

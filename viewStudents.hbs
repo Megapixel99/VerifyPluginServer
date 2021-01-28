@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style media="screen">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .styled-table {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 80%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+      .styled-table thead tr {
+        background-color: #990000;
+        color: #ffffff;
+        text-align: left;
+      }
+
+      .styled-table thead {
+        position: sticky;
+        top: 0;
+        min-width: 80vw;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        text-align: center;
+        padding: 12px 15px;
+      }
+
+      .styled-table tbody {
+        overflow-y: scroll;
+        height: 100vh;
+      }
+
+      .styled-table tbody tr {
+        border-bottom: thin solid #dddddd;
+        max-height: 40px;
+      }
+
+      .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+
+      .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #990000;
+      }
+
+      .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #990000;
+      }
+    </style>
+    <meta charset="utf-8">
+    <title>View Students</title>
+  </head>
+  <body>
+      <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Student ID</th>
+        <th>Current Minecraft Name</th>
+        <th>Minecraft UUID</th>
+        <th>Verified</th>
+        <th>Role</th>
+        <th>Muted</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each players}}
+        <tr>
+          <td>{{this.id}}</td>
+          <td>{{this.ign}}</td>
+          <td>{{this.uuid}}</td>
+          <td>{{this.verified}}</td>
+          <td>{{this.role}}</td>
+          <td>{{this.mute}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </body>
+</html>

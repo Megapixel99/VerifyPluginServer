@@ -4,6 +4,9 @@ require('./env.js');
 const methods = require('./methods.js');
 const axios = require('axios');
 const bearerAuth = require('./bearerAuth.js');
+const handlebars = require('handlebars');
+const fs = require('fs');
+const path = require('path');
 
 router.get('/ping', (req, res) => {
   res.status(200).send('pong');
@@ -19,6 +22,17 @@ router.get('/beep', (req, res) => {
 
 router.get('/boop', (req, res) => {
   res.status(200).send('beep');
+});
+
+router.get('/', (req, res) => {
+  methods.getPlayers({}).then((players) => {
+    let template = handlebars.compile(fs.readFileSync(path.resolve(`./viewStudents.hbs`)).toString());
+    console.log({players});
+    res.send(template({players}));
+  }).catch((err) => {
+    console.error(err.err);
+    res.status(err.data.status).send("An Internal Server Error has occured, please look at the server logs for further information");
+  });
 });
 
 router.get('/verify/status/id/:id', bearerAuth, (req, res) => {
