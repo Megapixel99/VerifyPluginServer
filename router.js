@@ -58,7 +58,7 @@ router.post('/add/id/:id', bearerAuth, (req, res) => {
 });
 
 router.post('/formstack', async (req, res) => {
-  if (Number(req.body.FormID) === process.env.FORM_ID) {
+  if (Number(req.body.FormID) === Number(process.env.FORM_ID)) {
     res.sendStatus(202);
     let ign = req.body['What is your minecraft username?'].split("\nfield_type")[0].replace(/\s+/g, '').split('=')[1];
     let id = req.body.Email.split("\nfield_type")[0].replace(/\s+/g, '').split('=')[1].split("@")[0];
