@@ -27,7 +27,6 @@ router.get('/boop', (req, res) => {
 router.get('/', (req, res) => {
   methods.getPlayers({}).then((players) => {
     let template = handlebars.compile(fs.readFileSync(path.resolve(`./viewStudents.hbs`)).toString());
-    console.log({players});
     res.send(template({players}));
   }).catch((err) => {
     console.error(err.err);
@@ -88,6 +87,9 @@ router.post('/formstack', async (req, res) => {
             uuid = uuid.substr(0,8)+"-"+uuid.substr(8,4)+"-"+uuid.substr(12,4)+"-"+uuid.substr(16,4)+"-"+uuid.substr(20);
           }
           await methods.verify(id, code, ign, uuid);
+        } else {
+          console.log(`Unable to find ign: ${ign}, from Mojang API, for player: ${id}`);
+          console.log(`please check NameMC to see if an account named: ${ign} exsists`);
         }
       }
     } catch (e) {
